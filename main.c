@@ -6,7 +6,6 @@
 /* unix */
 #include <unistd.h>
 #include <fcntl.h>
-
 #include <sys/time.h>
 #include <sys/types.h>
 #include <sys/termios.h>
@@ -157,7 +156,7 @@ int main(int argc, const char* argv[]){
                 break;
             case OP_BR: 
                 {
-                    uint16_t pc_offset = sign_extend(ins & 0x1FF, 9);
+                    uint16_t pc_offset = sign_extend(ins & 0x1F, 9);
                     uint16_t conn_flag = (ins >> 9) & 0x7;
 
                     if(conn_flag & reg[R_COND]){
@@ -193,7 +192,7 @@ int main(int argc, const char* argv[]){
             case OP_LDI:
                 {
                     uint16_t r0 = (ins >> 9)& 0x7;//DR
-                    uint16_t pc_offcet = sign_extend(ins & 0x1FF, 9);
+                    uint16_t pc_offcet = sign_extend(ins & 0x1F, 9);
 
                     reg[r0] = mem_read(mem_read(reg[R_PC] + pc_offcet));
                     update_flags(r0);
@@ -267,13 +266,10 @@ int main(int argc, const char* argv[]){
             case OP_RTI:
                 default:
                     {}
-                    break;
-
-            
+                    break;            
         }
     }
-    {}
-
+    
 }
 
 
