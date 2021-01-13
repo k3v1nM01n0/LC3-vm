@@ -122,7 +122,7 @@ int main(int argc, const char* argv[]){
                  uint16_t r1 = (ins >> 6) & 0x7;//SR
                  uint16_t imm_flag = (ins >> 5) & 0x1; //weherwe are on immediate flag or register mode
                 if(imm_flag){
-                    uint16_t imm5 = sign_extend(ins >> 0x1F, 5);
+                    uint16_t imm5 = sign_extend(ins >> 0x1FF, 5);
                     reg[r0] = reg[r1] + imm5;
                 }else{
                     uint16_t r2 = ins & 0x7;
@@ -137,7 +137,7 @@ int main(int argc, const char* argv[]){
                     uint16_t imm_flag = (ins >> 1) & 0x1;
 
                     if(imm_flag){
-                        uint16_t imm5 = sign_extend(ins & 0x1F, 5);
+                        uint16_t imm5 = sign_extend(ins & 0x1FF, 5);
                         reg[r0] = reg[r1] & imm5;
                     }else{
                        uint16_t r2 = ins & 0x7;
@@ -156,7 +156,7 @@ int main(int argc, const char* argv[]){
                 break;
             case OP_BR: 
                 {
-                    uint16_t pc_offset = sign_extend(ins & 0x1F, 9);
+                    uint16_t pc_offset = sign_extend(ins & 0x1FF, 9);
                     uint16_t conn_flag = (ins >> 9) & 0x7;
 
                     if(conn_flag & reg[R_COND]){
@@ -192,7 +192,7 @@ int main(int argc, const char* argv[]){
             case OP_LDI:
                 {
                     uint16_t r0 = (ins >> 9)& 0x7;//DR
-                    uint16_t pc_offcet = sign_extend(ins & 0x1F, 9);
+                    uint16_t pc_offcet = sign_extend(ins & 0x1FF, 9);
 
                     reg[r0] = mem_read(mem_read(reg[R_PC] + pc_offcet));
                     update_flags(r0);
