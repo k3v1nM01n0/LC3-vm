@@ -1,6 +1,6 @@
 # LC3 VM
 
-This is a virtual machine that can run assembly programs fr the [lc3] (https://en.wikipedia.org/wiki/Little_Computer_3)computer. The aim is to understand how VMs (like the Java Virtual Machine which runs Java, Kotlin, or Clojure programs) work and build our own simple VM.
+This is a virtual machine that can run assembly programs fr the [lc3] (https://en.wikipedia.org/wiki/Little_Computer_3)  computer. The aim is to understand how VMs (like the Java Virtual Machine which runs Java, Kotlin, or Clojure programs) work and build our own simple VM.
 
 ## Resourses
 * [Write your own virtual machine](https://www.jmeiners.com/lc3-vm/)
