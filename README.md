@@ -83,6 +83,7 @@ Instruction tell the lc3 cpu to do some task, each 16 bit intruction has an opco
     ./lc3 examples/hello-world
 ```
 * Below is an hello-word program for the lc3, you'll can find the assembled program in example_programs directory
+
     .ORIG x3000                        ; this is the address in memory where the program will be loaded
     LEA R0, HELLO_STR                  ; load the address of the HELLO_STR string into R0
     PUTs                               ; output the string pointed to by R0 to the console
