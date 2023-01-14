@@ -7,87 +7,22 @@ This is a virtual machine that can run assembly programs fr the [lc3](https://en
 * [https://justinmeiners.github.io/lc3-vm/supplies/lc3-isa.pdf](https://justinmeiners.github.io/lc3-vm/supplies/lc3-isa.pdf)
 * [LC3-Simulator](https://wchargin.com/lc3web/)
 
-## Build
+## 16-bit Computer Emulator
 
-```bash
-gcc main.c -o lc3
-```
+This program is a 16-bit computer emulator that simulates the basic functionality of a computer, including:
 
-## LC3 Architecture
+- **Memory**: the program uses an array of 16-bit integers to simulate memory, with a maximum capacity of `UINT16_MAX`.
 
-This VM simulates a fictional computer, lc3 used to teach assembly language.
-### Memory
-The LC-3 has 65,536 memory locations, 2^16, each store a 16 bit value.
-```c
-uint16_t memory[UINT16_MAX];
-```
+- **Registers**: the program uses an array of 16-bit integers to simulate registers. There are `R_COUNT` total registers, including the program counter (`PC`) and the condition register (`COND`).
 
-### Registers
-* The LC-3 has 10 registers each 16 bits. Most are general purpose.
-    * 8 general purpose registers
-    * 1 program counter (PC)
-    * 1 conditional register (COND)
-```c
-    enum
-    {
-        R_R0 = 0,
-        R_R1,
-        R_R2,
-        R_R3,
-        R_R4,
-        R_R5,
-        R_R6,
-        R_R7,
-        R_PC,
-        R_COND,
-        R_COUNT
-    };
-    uint16_t registers[R_COUNT];
-```
+- **Opcodes**: the program supports a variety of opcodes, such as `ADD`, `LD`, `ST`, `JSR`, `AND`, `LDR`, `STR`, `RTI`, `NOT`, `LDI`, `STI`, `JMP`, `RES`, `LEA`, and `TRAP`.
 
-### Instruction set
-Instruction tell the lc3 cpu to do some task, each 16 bit intruction has an opcode, 4 left bits which indicate some of task to perform on a set of parameters, represented by the rest of the bits. LC-3 has 16 opcodes.
-```C
-    enum
-    {
-        OP_BR = 0, /* branch */
-        OP_ADD,    /* add  */
-        OP_LD,     /* load */
-        OP_ST,     /* store */
-        OP_JSR,    /* jump register */
-        OP_AND,    /* bitwise and */
-        OP_LDR,    /* load register */
-        OP_STR,    /* store register */
-        OP_RTI,    /* unused */
-        OP_NOT,    /* bitwise not */
-        OP_LDI,    /* load indirect */
-        OP_STI,    /* store indirect */
-        OP_JMP,    /* jump */
-        OP_RES,    /* reserved (unused) */
-        OP_LEA,    /* load effective address */
-        OP_TRAP    /* execute trap */
-    };
-```
+- **Flags**: the program uses the condition register (`COND`) to store flag information, including the positive (`POS`), zero (`ZRO`), and negative (`NEG`) flags.
 
-### Procedure
-1. Load one instruction from memory at the address of the PC register.
-2. Increment the PC register.
-3. Look at the opcode to determine which type of instruction it should perform.
-4. Perform the instruction using the parameters in the instruction.
-5. Go back to step 1.
+- **Traps**: the program supports a variety of traps, such as `GETC`, `OUT`, `PUTS`, `IN`, `PUTSP`, and `HALT`.
 
-### Usage
-```bash
-    ./lc3 <program>
-    #example
-    ./lc3 examples/hello-world
-```
-* Below is an hello-word program for the lc3, you'll can find the assembled program in example_programs directory
-```c
-    .ORIG x3000                        ; this is the address in memory where the program will be loaded
-    LEA R0, HELLO_STR                  ; load the address of the HELLO_STR string into R0
-    PUTs                               ; output the string pointed to by R0 to the console
-    HALT                               ; halt the program
-    HELLO_STR .STRINGZ "Hello World!"  ; store this string here in the program
-    .END                               ; mark the end of the file
-```
+- **Keyboard input**: the program uses the keyboard status register (`KBSR`) and the keyboard data register (`KBDR`) to handle keyboard input.
+
+- **Endianness**: the program uses the `swap16()` function to handle endianness conversion.
+
+- **Sign extension**: the program uses the `sign_extend()` function to handle sign extension.
